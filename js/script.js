@@ -43,10 +43,20 @@ console.log("The dem color is " + dem.partyColor)
 console.log("The green party color is " + green.partyColor)
 
 var setStateResults = function(state) {
-  if (dem.electionResults for this.state > green.electionResults for this.state) {
-    setStateResults = dem.name;
-  } else if (green.electionResults for this.state > dem.electionResults for this.state) {
-    setStateResults = green.name;
+  theStates[state].winner = null;
+
+  if (dem.electionResults[state] > green.electionResults[state]) {
+    theStates[state].winner = dem.name;
+  } else if (green.electionResults[state] > dem.electionResults[state]) {
+    theStates[state].winner = green.name;
+  }
+
+  var stateWinner = theStates[state].winner;
+
+  if (stateWinner !== null) {
+    theStates[state].rgbColor = stateWinner.partyColor;
+  } else {
+    theStates[state].rgbColor = [11, 32, 57];
   }
 }
 
