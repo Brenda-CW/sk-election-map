@@ -42,23 +42,53 @@ console.log("Green election results are " + green.electionResults);
 console.log("The dem color is " + dem.partyColor)
 console.log("The green party color is " + green.partyColor)
 
+//This calculates the winner for each state
 var setStateResults = function(state) {
   theStates[state].winner = null;
 
   if (dem.electionResults[state] > green.electionResults[state]) {
-    theStates[state].winner = dem.name;
+    theStates[state].winner = dem;
   } else if (green.electionResults[state] > dem.electionResults[state]) {
-    theStates[state].winner = green.name;
-  }
+    theStates[state].winner = green;
+  } 
 
+  //This section fills in the state table
+  var stateTable = document.getElementById('stateResults');
+
+  var header = stateTable.children[0].children[0];
+  var stateName = header.children[0];
+  stateName.innerText = theStates[state].nameFull;
+  var stateAbbrev = header.children[1];
+  stateAbbrev.innerText = theStates[state].nameAbbrev;
+
+  //This fills in the first row of the state table when you mouse over the state
+  var row1 = stateTable.children[1].children[0];
+  var name1 = row1.children[0];
+  name1.innerText = dem.name;
+  var results1 = row1.children[1];
+  results1.innerText = dem.electionResults[state];
+
+  //This fills in the 2nd row of the state table when you mouse over
+  var row2 = stateTable.children[1].children[1];
+  var name2 = row2.children[0];
+  name2.innerText = green.name;
+  var results2 = row2.children[1];
+  results2.innerText = green.electionResults[state];
+  
+  //This turns the state shapes the color of the state's winner
   var stateWinner = theStates[state].winner;
-
-  if (stateWinner !== null) {
+    if (stateWinner !== null) {
     theStates[state].rgbColor = stateWinner.partyColor;
-  } else {
+    } else {
     theStates[state].rgbColor = [11, 32, 57];
   }
-}
+  //DECLARE WINNER - NEEDS IF/ELSE STATEMENT FOR STATES WITH A TIE
+var winner = stateTable.children[1].children[2];
+var winnerName = winner.children[1];
+  if (stateWinner === null) {
+    winnerName.innerText = "Tie!"
+  } else winnerName.innerText = theStates[state].winner.name;
+};
 
 dem.totalVotes();
 green.totalVotes();
@@ -77,3 +107,13 @@ if (dem.totalVotes > green.totalVotes) {
 }
   
 console.log("Our new President is...." + winner + "!!!");
+
+var countryTable = document.getElementById('countryResults');
+
+countryTable.children[0].children[0].children[0].innerText = dem.name;
+countryTable.children[0].children[0].children[1].innerText = dem.totalVotes;
+countryTable.children[0].children[0].children[2].innerText = green.name;
+countryTable.children[0].children[0].children[3].innerText = green.totalVotes;
+countryTable.children[0].children[0].children[5].innerText = winner;
+//alternate would be to list "var row = countrytable.children[0].children[0];" after "var countryTable" and then just list "row.children[0].innerText..." for each row to save typing
+
